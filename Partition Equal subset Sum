@@ -1,0 +1,35 @@
+TC AND SC ARE SIMILAR TO PREVIOUS PROBLEM
+
+class Solution {
+public:
+    bool subsetsum(int index, int sum, vector<int>& nums, vector<vector<int>>&dp){
+        //Base Cases
+        if(sum ==0) return true;
+        if(index ==0) return (sum == nums[index]);
+
+        if(dp[index][sum]!= -1) return dp[index][sum];
+
+        bool nottake = subsetsum(index-1, sum, nums,dp);
+        bool take = false;
+        if(sum>= nums[index]){
+            take = subsetsum(index-1, sum- nums[index], nums,dp);
+        }
+        return dp[index][sum]= take || nottake;
+
+    }
+    bool canPartition(vector<int>& nums) {
+        int n = nums.size();
+        int sum =0;
+        
+        for(int i =0; i<n; i++){
+            sum+= nums[i];
+
+        }
+        vector<vector<int>>dp(n,vector<int>((sum/2)+1,-1));
+        if(sum%2!= 0) return false;
+        else{
+            return subsetsum(n-1,sum/2,nums,dp);
+        }
+        
+    }
+};
