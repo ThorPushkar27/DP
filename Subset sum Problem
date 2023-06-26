@@ -1,0 +1,24 @@
+class Solution{   
+public:
+    bool subsetsum(int index, int sum, vector<int>&arr, vector<vector<int>> &dp){
+        //Base case
+        if(sum ==0 ) return true;
+        if(index ==0) return (arr[0]== sum);
+        
+        if(dp[index][sum]!= -1) return dp[index][sum]; 
+        bool nottake = subsetsum(index-1, sum,arr,dp);
+        bool take = false;
+        if(sum>= arr[index]){
+            take = subsetsum(index-1, sum-arr[index],arr,dp);
+        }
+        return dp[index][sum] = take || nottake;
+    }
+    bool isSubsetSum(vector<int>arr, int sum){
+        int n = arr.size();
+        vector<vector<int>>dp(n,vector<int>(sum+1, -1));
+        
+        return subsetsum(n-1,sum, arr,dp);
+        
+        // code here 
+    }
+};
